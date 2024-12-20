@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Bandeira de Cartão</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Validador de Bandeiras de Cartão de Crédito</h1>
+        <label for="cardNumber">Selecione um número de cartão:</label>
+        <select id="cardNumber">
+            <option value="5277959558870483">01 - 5277959558870483</option>
+            <option value="4111111111111111">02 - 4111111111111111</option>
+            <option value="6362970000457013">03 - 6362970000457013</option>
+            <option value="378282246310005">04 - 378282246310005</option>
+            <option value="6011111111111117">05 - 6011111111111117</option>
+            <option value="6062825189259528">06 - 6062825189259528</option>
+            <option value="3530111333300000">07 - 3530111333300000</option>
+            <option value="30569309025904">08 - 30569309025904</option>
+            <option value="869941234567890">09 - 869941234567890</option>
+            <option value="5078601870000127980">10 - 5078601870000127980</option>
+        </select>
+        <button onclick="checkCardType()">Consultar</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function checkCardType() {
+            const cardNumber = document.getElementById('cardNumber').value;
+            fetch('/card-type', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ cardNumber })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerText = `Bandeira: ${data.cardType}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
